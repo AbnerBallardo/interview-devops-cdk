@@ -5,7 +5,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "inlineSources": true
+    "inlineSources": true,
+    "isolatedModules": true,
   },
   "include": [
     "**/*.ts"

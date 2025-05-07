@@ -8,7 +8,10 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk diff"
+    "cdk:bootstrap": "cdk bootstrap --profile modlost",
+    "cdk:diff": "cdk diff --profile modlost",
+    "cdk:deploy": "cdk deploy --profile modlost",
+    "cdk:synth": "cdk synth --profile modlost"
   },
   "devDependencies": {
     "@tsconfig/node18": "18.2.4",

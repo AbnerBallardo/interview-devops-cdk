@@ -1,16 +1,47 @@
 import * as cdk from 'aws-cdk-lib';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as apiGateway from 'aws-cdk-lib/aws-apigateway';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class InterviewDevopsCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const lambda = this.createLambda();
+    const api = this.createApiGateway();
+    this.configureGetCustomers({ api, lambda });
+  }
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'InterviewDevopsCdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+  private createLambda() {
+    return new lambda.Function(this, 'CustomersLambda', {
+      functionName: `CustomersLambda`,
+      runtime: lambda.Runtime.NODEJS_22_X,
+      handler: `dist/handlers/customers.customersHandler`,
+      code: lambda.Code.fromInline(
+        'exports.handler = function(event, context) { console.log(event); return event; }',
+      ),
+    });
+  }
+
+  private createApiGateway() {
+    return new apiGateway.RestApi(this, `RestApi`, {
+      restApiName: `Api`,
+      description: 'One API to rule them all',
+      deployOptions: {
+        stageName: 'v1',
+      },
+    });
+  }
+
+  private configureGetCustomers({
+    api,
+    lambda,
+  }: {
+    api: apiGateway.RestApi;
+    lambda: lambda.Function;
+  }) {
+    api.root
+      .resourceForPath('customers')
+      .addMethod('GET', new apiGateway.LambdaIntegration(lambda));
   }
 }
