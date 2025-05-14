@@ -11,6 +11,7 @@
     "cdk:bootstrap": "cdk bootstrap --profile modlost",
     "cdk:diff": "cdk diff --profile modlost",
     "cdk:deploy": "cdk deploy --profile modlost",
+    "cdk:destroy": "cdk destroy --profile modlost",
     "cdk:synth": "cdk synth --profile modlost"
   },
   "devDependencies": {

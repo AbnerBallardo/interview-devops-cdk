@@ -9,3 +9,4 @@ node_modules
 cdk.out
 build
 dist
+package-lock.json
